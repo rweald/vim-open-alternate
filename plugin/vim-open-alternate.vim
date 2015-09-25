@@ -21,8 +21,8 @@ function! s:IsCucumberStepDefinitionFile(file)
   return match(a:file, '^features/step_definitions/.*_steps\.rb$') != -1
 endfunction
 
-function! s:IsRailsControllerModelViewAssetFile(file)
-  return match(a:file, '\<controllers\>') != -1 || match(a:file, '\<models\>') != -1 || match(a:file, '\<views\>') != -1 || match(a:file, '\<assets\>') != -1 || match(a:file, '\<helpers\>') != -1 || match(a:file, '\<mailers\>') != -1
+function! s:IsRailsAppFile(file)
+  return match(a:file, '\<controllers\>') != -1 || match(a:file, '\<models\>') != -1 || match(a:file, '\<views\>') != -1 || match(a:file, '\<jobs\>') != -1 || match(a:file, '\<services\>') != -1 || match(a:file, '\<assets\>') != -1 || match(a:file, '\<helpers\>') != -1 || match(a:file, '\<mailers\>') != -1
 endfunction
 
 function! s:IsJavascriptSpecFile(file)
@@ -51,7 +51,7 @@ function! s:AlternateFileForRSpecFile(rspec_file)
   let alternate_file = substitute(a:rspec_file, 'erb_spec\.rb$', 'erb', '')
   let alternate_file = substitute(alternate_file, '_spec\.rb$', '.rb', '')
   let alternate_file = substitute(alternate_file, '^spec/', '', '')
-  if s:IsRailsControllerModelViewAssetFile(alternate_file)
+  if s:IsRailsAppFile(alternate_file)
     let alternate_file = 'app/' . alternate_file
   end
   return alternate_file
@@ -61,7 +61,7 @@ function! s:AlternateFileForRakeRSpecFile(rspec_file)
   " go to implementation file
   let alternate_file = substitute(a:rspec_file, '_rake_spec\.rb$', '.rake', '')
   let alternate_file = substitute(alternate_file, '^spec/', '', '')
-  if s:IsRailsControllerModelViewAssetFile(alternate_file)
+  if s:IsRailsAppFile(alternate_file)
     let alternate_file = 'app/' . alternate_file
   end
   return alternate_file
@@ -71,7 +71,7 @@ function! s:AlternateFileForJavascriptSpecFile(javascript_spec_file)
   " go to implementation file
   let alternate_file = substitute(a:javascript_spec_file, '_spec\.js$', '.js', '')
   let alternate_file = substitute(alternate_file, '^spec/', '', '')
-  if s:IsRailsControllerModelViewAssetFile(alternate_file)
+  if s:IsRailsAppFile(alternate_file)
     let alternate_file = 'app/' . alternate_file
   end
   return alternate_file
@@ -93,7 +93,7 @@ endfunction
 function! s:AlternateFileForRubyImplementationFile(ruby_implementation_file)
   let alternate_file = a:ruby_implementation_file
   " go to spec file
-  if s:IsRailsControllerModelViewAssetFile(a:ruby_implementation_file)
+  if s:IsRailsAppFile(a:ruby_implementation_file)
     let alternate_file = substitute(a:ruby_implementation_file, '^app/', '', '')
   end
   let alternate_file = substitute(alternate_file, '\.rb$', '_spec.rb', '')
@@ -105,7 +105,7 @@ endfunction
 function! s:AlternateFileForRakeImplementationFile(rake_implementation_file)
   let alternate_file = a:rake_implementation_file
   " go to spec file
-  if s:IsRailsControllerModelViewAssetFile(a:rake_implementation_file)
+  if s:IsRailsAppFile(a:rake_implementation_file)
     let alternate_file = substitute(a:rake_implementation_file, '^app/', '', '')
   end
   let alternate_file = substitute(alternate_file, '\.rake$', '_rake_spec.rb', '')
@@ -116,7 +116,7 @@ endfunction
 function! s:AlternateFileForJavascriptImplementationFile(javascript_implementation_file)
   let alternate_file = a:javascript_implementation_file
   " go to spec file
-  if s:IsRailsControllerModelViewAssetFile(a:javascript_implementation_file)
+  if s:IsRailsAppFile(a:javascript_implementation_file)
     let alternate_file = substitute(a:javascript_implementation_file, '^app/', '', '')
   end
   let alternate_file = substitute(alternate_file, '\.js$', '_spec.js', '')
